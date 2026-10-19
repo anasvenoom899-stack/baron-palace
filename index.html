@@ -1,0 +1,800 @@
+<title>قصر البارون</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600&family=Marcellus&family=Reem+Kufi:wght@400;500;600;700&display=swap">
+<style>
+/* Layout concept: a gilded guidebook on a black plate. The hero is the logo plate; the main interaction is a cutaway of the palace where each floor opens its own page of facts. */
+:root {
+  --ink: #14110e;
+  --ink-2: #1c1813;
+  --ink-3: #272119;
+  --gold: #d8b082;
+  --gold-hi: #f0d9b3;
+  --gold-dim: #8a7050;
+  --gold-a: rgba(216, 176, 130, 0.16);
+  --paper: #efe7d9;
+  --muted: #b8ab96;
+  --rust: #d08a6c;
+  --f-display: 'Reem Kufi', 'Noto Kufi Arabic', 'Segoe UI', sans-serif;
+  --f-body: 'IBM Plex Sans Arabic', 'Noto Sans Arabic', 'Segoe UI', Tahoma, sans-serif;
+  --f-latin: 'Marcellus', 'Trajan Pro', Georgia, serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 5rem; }
+body {
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--f-body);
+  font-size: 1.0625rem;
+  line-height: 1.85;
+  padding-block: 0;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0 0 auto;
+  height: env(safe-area-inset-top, 0px);
+  z-index: 30;
+  background: var(--ink);
+}
+a { color: var(--gold); }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--gold-hi); outline-offset: 3px; }
+.wrap { max-width: 1080px; margin-inline: auto; }
+.latin { font-family: var(--f-latin); letter-spacing: 0.28em; text-transform: uppercase; }
+
+/* header */
+.top {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 20;
+  background: var(--ink);
+  border-bottom: 1px solid var(--ink-3);
+  margin-inline: calc(-1 * max(16px, env(safe-area-inset-left, 0px)));
+  padding-inline: max(16px, env(safe-area-inset-left, 0px));
+}
+.top-in { max-width: 1080px; margin-inline: auto; display: flex; align-items: center; gap: 1.25rem; padding-block: 0.6rem; }
+.brand { font-family: var(--f-display); font-size: 1.35rem; color: var(--gold-hi); text-decoration: none; white-space: nowrap; }
+.nav { display: flex; gap: 1.25rem; margin-inline-start: auto; }
+.nav a { color: var(--muted); text-decoration: none; font-size: 0.95rem; }
+.nav a:hover { color: var(--gold-hi); }
+.explorer { display: flex; align-items: center; gap: 0.6rem; font-size: 0.85rem; color: var(--muted); white-space: nowrap; margin-inline-start: auto; }
+.nav + .explorer { margin-inline-start: 0; }
+.meter { width: 64px; height: 4px; background: var(--ink-3); overflow: hidden; }
+.meter i { display: block; height: 100%; width: 0; background: var(--gold); transition: width 0.4s; }
+.explorer.done { color: var(--gold-hi); }
+@media (max-width: 760px) { .nav { display: none; } }
+
+/* hero */
+.hero { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr); gap: clamp(1.5rem, 5vw, 4rem); align-items: center; padding-block: clamp(2rem, 6vw, 4.5rem); }
+.hero-text { min-width: 0; }
+.eyebrow { font-size: 0.78rem; color: var(--gold); margin: 0 0 1rem; }
+h1 { font-family: var(--f-display); font-weight: 600; font-size: clamp(2.6rem, 8vw, 4.8rem); line-height: 1.15; margin: 0 0 1.25rem; color: var(--gold-hi); text-wrap: balance; }
+.lead { max-width: 38em; color: var(--paper); margin: 0 0 1.75rem; }
+.cta { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 2rem; }
+.btn { display: inline-block; background: transparent; border: 1px solid var(--gold-dim); padding: 0.6rem 1.3rem; border-radius: 2px; cursor: pointer; text-decoration: none; color: var(--paper); transition: background 0.2s, border-color 0.2s; }
+.btn:hover { background: var(--gold-a); border-color: var(--gold); }
+.btn.solid { background: var(--gold); border-color: var(--gold); color: var(--ink); font-weight: 600; }
+.btn.solid:hover { background: var(--gold-hi); }
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); gap: 0; margin: 0; border-top: 1px solid var(--gold-dim); }
+.facts div { padding: 0.8rem 0; border-bottom: 1px solid var(--ink-3); }
+.facts dt { font-size: 0.8rem; color: var(--muted); }
+.facts dd { margin: 0; font-weight: 500; }
+.plate { justify-self: center; line-height: 0; }
+.plate svg { display: block; width: min(320px, 78vw); height: auto; color: var(--gold); background: var(--ink); border: 1px solid var(--gold-dim); box-shadow: 0 0 0 8px var(--ink), 0 0 0 9px var(--gold-dim); animation: rise 0.9s ease both; }
+@keyframes rise { from { opacity: 0.2; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@media (max-width: 820px) { .hero { grid-template-columns: minmax(0, 1fr); } .plate { order: -1; } }
+
+/* sections */
+.sec { padding-block: clamp(2.5rem, 6vw, 4.5rem); border-top: 1px solid var(--ink-3); }
+.sec-head { max-width: 40rem; margin-bottom: 2rem; }
+.sec-head .latin { font-size: 0.72rem; color: var(--gold); display: block; margin-bottom: 0.5rem; }
+h2 { font-family: var(--f-display); font-weight: 500; font-size: clamp(1.8rem, 4.5vw, 2.6rem); line-height: 1.3; margin: 0 0 0.6rem; color: var(--gold-hi); text-wrap: balance; }
+.sec-head p { margin: 0; color: var(--muted); }
+h3 { font-family: var(--f-display); font-weight: 500; font-size: 1.35rem; margin: 0 0 0.4rem; color: var(--gold-hi); }
+
+/* cutaway */
+.tour { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); gap: clamp(1.25rem, 4vw, 3rem); align-items: start; }
+.cut { background: var(--ink-2); border: 1px solid var(--ink-3); padding: 0.75rem; min-width: 0; }
+.cut svg { display: block; width: 100%; height: auto; }
+.lvl { cursor: pointer; }
+.lvl .shape { fill: var(--ink-3); stroke: var(--gold-dim); stroke-width: 1.5; transition: fill 0.25s, stroke 0.25s; }
+.lvl:hover .shape { stroke: var(--gold); }
+.lvl.on .shape { fill: var(--gold-a); stroke: var(--gold-hi); stroke-width: 2; }
+.lvl:focus-visible { outline: none; }
+.lvl:focus-visible .shape { stroke: var(--gold-hi); stroke-width: 3; }
+.lvl.plain .shape { fill: none; stroke: none; }
+.lvl.plain.on .shape { fill: var(--gold-a); }
+.deco { fill: none; stroke: var(--gold-dim); stroke-width: 1.25; pointer-events: none; }
+.deco.fill { fill: var(--gold-dim); stroke: none; }
+.t { fill: var(--paper); font-family: var(--f-display); font-size: 16px; text-anchor: middle; pointer-events: none; }
+.t.small { font-size: 13px; fill: var(--muted); }
+.ground-line { stroke: var(--gold); stroke-width: 1.5; }
+.cut-note { margin: 0.5rem 0.25rem 0; font-size: 0.8rem; color: var(--muted); }
+.chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.25rem; }
+.chip { background: transparent; border: 1px solid var(--ink-3); color: var(--muted); padding: 0.25rem 0.8rem; border-radius: 2px; cursor: pointer; font-size: 0.9rem; transition: all 0.2s; }
+.chip:hover { border-color: var(--gold-dim); color: var(--paper); }
+.chip[aria-pressed="true"] { background: var(--gold-a); border-color: var(--gold); color: var(--gold-hi); }
+.panel { border-top: 2px solid var(--gold); padding-top: 1rem; min-height: 15rem; }
+.panel .sub { color: var(--gold); font-size: 0.9rem; margin: 0 0 1rem; }
+.panel ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 0.7rem; }
+.panel li { padding-inline-start: 1.1rem; position: relative; }
+.panel li::before { content: ""; position: absolute; inset-inline-start: 0; top: 0.8em; width: 6px; height: 6px; background: var(--gold); transform: rotate(45deg); }
+.details { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: 0; margin-top: 2.5rem; border-top: 1px solid var(--gold-dim); }
+.details > div { padding: 1.1rem 0; padding-inline-end: 1.5rem; }
+.details h3 { font-size: 1.1rem; }
+.details p { margin: 0; color: var(--muted); font-size: 0.97rem; line-height: 1.75; }
+@media (max-width: 860px) { .tour { grid-template-columns: minmax(0, 1fr); } .panel { min-height: 0; } }
+
+/* timeline */
+.tl { list-style: none; margin: 0; padding: 0; position: relative; }
+.tl::before { content: ""; position: absolute; inset-block: 0.5rem; inset-inline-start: 5.4rem; width: 1px; background: var(--gold-dim); }
+.tl li { position: relative; }
+.tl-btn { display: grid; grid-template-columns: 4.6rem minmax(0, 1fr); gap: 1.6rem; width: 100%; text-align: start; background: none; border: 0; padding: 0.7rem 0; cursor: pointer; align-items: baseline; }
+.tl-btn .yr { font-family: var(--f-latin); font-size: 1.25rem; color: var(--gold); text-align: end; font-variant-numeric: tabular-nums; }
+.tl-btn .tt { position: relative; font-weight: 500; }
+.tl-btn .tt::before { content: ""; position: absolute; inset-inline-start: calc(-0.8rem - 4px); top: 0.75em; width: 9px; height: 9px; background: var(--ink); border: 1px solid var(--gold); transform: rotate(45deg); transition: background 0.2s; }
+.tl-btn:hover .tt::before, .tl-btn[aria-expanded="true"] .tt::before { background: var(--gold); }
+.tl-btn:hover .tt { color: var(--gold-hi); }
+.tl-more { margin: 0 0 0.6rem; padding-inline-start: calc(4.6rem + 1.6rem); color: var(--muted); max-width: 44rem; }
+.tl-more p { margin: 0; }
+@media (max-width: 520px) { .tl::before { inset-inline-start: 3.9rem; } .tl-btn { grid-template-columns: 3.2rem minmax(0, 1fr); gap: 1.3rem; } .tl-more { padding-inline-start: calc(3.2rem + 1.3rem); } .tl-btn .yr { font-size: 1.05rem; } }
+
+/* flip cards */
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr)); gap: 1rem; }
+.flip { display: grid; padding: 0; background: none; border: 0; cursor: pointer; perspective: 900px; text-align: start; }
+.face { grid-area: 1 / 1; padding: 1.25rem; border: 1px solid var(--gold-dim); backface-visibility: hidden; -webkit-backface-visibility: hidden; transition: transform 0.55s cubic-bezier(.3,.7,.2,1); display: flex; flex-direction: column; gap: 0.5rem; min-height: 13.5rem; }
+.face.front { background: var(--ink-2); justify-content: space-between; }
+.face.back { background: var(--ink-3); transform: rotateY(180deg); border-color: var(--gold); }
+.flip[aria-pressed="true"] .front { transform: rotateY(-180deg); }
+.flip[aria-pressed="true"] .back { transform: rotateY(0); }
+.flip:hover .front { border-color: var(--gold); }
+.face h3 { margin: 0; }
+.face p { margin: 0; }
+.face .q { color: var(--muted); font-size: 0.95rem; }
+.face .hint { font-size: 0.8rem; color: var(--gold); }
+.face.back p { font-size: 0.98rem; line-height: 1.8; }
+.mini { width: 26px; height: 26px; color: var(--gold); }
+
+/* people */
+.tabs { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--ink-3); }
+.tab { background: none; border: 0; border-bottom: 2px solid transparent; padding: 0.5rem 1rem; color: var(--muted); cursor: pointer; margin-bottom: -1px; font-family: var(--f-display); font-size: 1.05rem; }
+.tab:hover { color: var(--paper); }
+.tab[aria-selected="true"] { color: var(--gold-hi); border-bottom-color: var(--gold); }
+.person { display: grid; grid-template-columns: minmax(0, 12rem) minmax(0, 1fr); gap: 2rem; }
+.person .role { color: var(--gold); font-size: 0.95rem; margin: 0 0 0.3rem; }
+.person .yrs { font-family: var(--f-latin); font-size: 1.1rem; color: var(--muted); letter-spacing: 0.1em; }
+.person ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 0.65rem; max-width: 40rem; }
+.person li { padding-inline-start: 1.1rem; position: relative; }
+.person li::before { content: ""; position: absolute; inset-inline-start: 0; top: 0.8em; width: 6px; height: 6px; background: var(--gold); transform: rotate(45deg); }
+@media (max-width: 640px) { .person { grid-template-columns: minmax(0, 1fr); gap: 0.75rem; } }
+
+/* heliopolis accordions */
+.acc { border-top: 1px solid var(--gold-dim); }
+.acc details { border-bottom: 1px solid var(--ink-3); }
+.acc summary { cursor: pointer; list-style: none; padding: 0.9rem 0; font-family: var(--f-display); font-size: 1.2rem; display: flex; align-items: center; gap: 0.8rem; }
+.acc summary::-webkit-details-marker { display: none; }
+.acc summary::before { content: "+"; font-family: var(--f-body); color: var(--gold); width: 1.2rem; text-align: center; }
+.acc details[open] summary::before { content: "\2212"; }
+.acc summary:hover { color: var(--gold-hi); }
+.acc .body { padding: 0 2rem 1.1rem; color: var(--muted); max-width: 44rem; }
+.acc .body p { margin: 0; }
+
+/* games */
+.game { background: var(--ink-2); border: 1px solid var(--ink-3); padding: clamp(1rem, 3vw, 2rem); }
+.game-bar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem; color: var(--muted); font-size: 0.95rem; }
+.memgrid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.6rem; }
+.mem { display: grid; padding: 0; background: none; border: 0; cursor: pointer; perspective: 700px; aspect-ratio: 1.15; min-height: 5.5rem; }
+.mem .f { grid-area: 1 / 1; display: grid; place-items: center; text-align: center; padding: 0.4rem; border: 1px solid var(--gold-dim); backface-visibility: hidden; -webkit-backface-visibility: hidden; transition: transform 0.45s; font-size: 0.95rem; line-height: 1.4; }
+.mem .f.up { background: var(--ink-3); border-color: var(--gold); transform: rotateY(180deg); font-family: var(--f-display); font-size: 1.05rem; color: var(--gold-hi); }
+.mem .f.down { background: var(--ink); color: var(--gold); }
+.mem.open .f.down { transform: rotateY(-180deg); }
+.mem.open .f.up { transform: rotateY(0); }
+.mem.ok .f.up { background: var(--gold-a); border-color: var(--gold-hi); }
+.mem .f svg { width: 28px; height: 28px; }
+@media (max-width: 520px) { .memgrid { grid-template-columns: repeat(3, minmax(0, 1fr)); } .mem { aspect-ratio: 1; } .mem .f.up { font-size: 0.95rem; } }
+.banner { margin-top: 1.25rem; padding: 1rem 1.25rem; border: 1px solid var(--gold); background: var(--gold-a); }
+.banner p { margin: 0; }
+.q-count { font-size: 0.9rem; color: var(--gold); margin: 0 0 0.4rem; }
+.q-text { font-family: var(--f-display); font-size: clamp(1.25rem, 3.2vw, 1.6rem); line-height: 1.5; margin: 0 0 1.25rem; color: var(--gold-hi); }
+.opts { display: grid; gap: 0.6rem; max-width: 38rem; }
+.opt { text-align: start; background: var(--ink); border: 1px solid var(--gold-dim); padding: 0.7rem 1rem; cursor: pointer; border-radius: 2px; transition: border-color 0.2s, background 0.2s; }
+.opt:hover:not(:disabled) { border-color: var(--gold); background: var(--ink-3); }
+.opt:disabled { cursor: default; }
+.opt.right { border-color: var(--gold-hi); background: var(--gold-a); color: var(--gold-hi); }
+.opt.wrong { border-color: var(--rust); color: var(--rust); }
+.why { margin: 1rem 0 0; color: var(--muted); max-width: 38rem; }
+.nextrow { margin-top: 1.25rem; }
+.score { font-family: var(--f-display); font-size: 2.2rem; color: var(--gold-hi); margin: 0.25rem 0; }
+.tf { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.tf li { padding: 1rem 0; border-bottom: 1px solid var(--ink-3); }
+.tf li:first-child { padding-top: 0; }
+.tf .st { margin: 0 0 0.7rem; font-weight: 500; }
+.tf .row { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+.tf .res { margin: 0.7rem 0 0; color: var(--muted); }
+.tf .res strong { color: var(--gold-hi); font-family: var(--f-display); font-weight: 500; }
+.tf .res.bad strong { color: var(--rust); }
+
+/* visit + sources */
+.visit { display: grid; grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr)); gap: 2rem; }
+.visit ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 0.6rem; }
+.visit li { padding-inline-start: 1.1rem; position: relative; }
+.visit li::before { content: ""; position: absolute; inset-inline-start: 0; top: 0.8em; width: 6px; height: 6px; background: var(--gold); transform: rotate(45deg); }
+.note { margin-top: 1.5rem; padding: 1rem 1.25rem; border: 1px solid var(--gold-dim); color: var(--muted); max-width: 44rem; }
+.note p { margin: 0; }
+.src { margin: 0; padding: 0; list-style: none; columns: 2 18rem; column-gap: 2.5rem; font-size: 0.95rem; }
+.src li { break-inside: avoid; padding: 0.35rem 0; border-bottom: 1px solid var(--ink-3); }
+.src a { text-decoration-color: var(--gold-dim); text-underline-offset: 3px; }
+.src small { color: var(--muted); display: block; font-size: 0.8rem; direction: ltr; text-align: end; }
+footer { border-top: 1px solid var(--ink-3); padding-block: 2rem 3rem; text-align: center; color: var(--muted); font-size: 0.9rem; }
+footer .latin { color: var(--gold); font-size: 0.75rem; display: block; margin-bottom: 0.5rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <symbol id="dome" viewBox="0 0 24 24"><path d="M12 1.5v4M12 5.5c-4.2 2-6.2 5.2-6.2 9.2h12.4c0-4-2-7.2-6.2-9.2zM4 14.7h16M5 19.5h14" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>
+
+<div class="app" dir="rtl" lang="ar">
+
+<header class="top">
+  <div class="top-in">
+    <a class="brand" href="#top">قصر البارون</a>
+    <nav class="nav" aria-label="أقسام الموقع">
+      <a href="#tour">الجولة</a>
+      <a href="#story">الحكاية</a>
+      <a href="#secrets">العمارة</a>
+      <a href="#play">الألعاب</a>
+      <a href="#visit">الزيارة</a>
+    </nav>
+    <div class="explorer" id="explorer" aria-live="polite">
+      <span id="chipText">اكتشفت 0 من 0</span>
+      <span class="meter" aria-hidden="true"><i id="chipBar"></i></span>
+    </div>
+  </div>
+</header>
+
+<main class="wrap" id="top">
+
+<section class="hero">
+  <div class="hero-text">
+    <p class="eyebrow latin">Heliopolis · Cairo</p>
+    <h1>قصر البارون إمبان</h1>
+    <p class="lead">قصر على هيئة معبد هندوسي وسط مصر الجديدة. بناه رجل الأعمال البلجيكي إدوارد إمبان بين 1907 و1911، وفتح أبوابه للزوار في 2020 بعد أول ترميم له. اضغط على أي مكان في الصفحة لتكتشف حكايته.</p>
+    <div class="cta">
+      <a class="btn solid" href="#tour">ابدأ الجولة</a>
+      <a class="btn" href="#play">اختبر معلوماتك</a>
+    </div>
+    <dl class="facts">
+      <div><dt>الاسم الفرنسي</dt><dd>Le Palais Hindou (القصر الهندي)</dd></div>
+      <div><dt>صاحب القصر</dt><dd>إدوارد إمبان (1852 – 1929)</dd></div>
+      <div><dt>المصمم</dt><dd>ألكسندر مارسيل (1860 – 1928)</dd></div>
+      <div><dt>البناء</dt><dd>1907 – 1911</dd></div>
+      <div><dt>الموقع</dt><dd>مصر الجديدة، القاهرة</dd></div>
+    </dl>
+  </div>
+  <div class="plate">
+    <svg class="logo" viewBox="0 0 214 345" role="img" aria-label="شعار قصر البارون Baron Palace"><path fill="currentColor" fill-rule="evenodd" d="M108.50 246.75L103.88 251.75L107.25 255.25L108.12 256.62L108.88 257.12L109.38 256.88L111.38 254.38L114.12 252.00L114.25 251.50L111.62 249.50L109.25 246.88ZM108.75 249.75L109.50 250.00L110.75 251.50L110.12 252.88L109.12 253.62L108.25 253.50L107.12 252.12L107.25 251.12ZM101.62 216.50L99.50 215.88L97.00 213.62L95.75 213.38L92.50 216.12L88.12 217.12L87.88 217.50L91.50 218.62L94.25 220.38L95.25 220.50L99.38 218.50L101.12 217.38ZM95.88 216.50L96.12 217.25L95.50 217.88L95.12 217.00L95.50 216.50ZM127.50 201.62L122.62 206.38L122.25 207.25L124.00 209.62L127.50 213.12L128.12 213.12L132.75 208.38L133.25 207.62L133.25 207.12L131.75 205.12L128.50 201.88ZM127.38 205.12L128.25 205.12L128.88 205.50L129.88 206.88L129.12 208.38L128.00 209.25L127.25 209.12L126.12 208.00L125.75 207.25L126.25 206.00ZM104.25 164.00L103.88 164.12L101.88 166.38L101.00 166.75L100.12 167.62L100.12 170.25L99.75 172.88L99.88 190.62L99.50 200.25L99.00 202.75L97.88 205.25L96.25 207.75L96.38 208.12L97.00 208.00L98.38 207.00L101.00 204.50L103.25 200.88L104.62 197.75L104.62 182.12L104.25 177.25L104.62 164.50ZM101.88 167.88L102.12 167.88L102.62 168.62L103.25 171.12L103.25 174.12L102.88 174.75L102.12 173.88L101.38 171.62L101.25 168.88ZM68.62 163.75L68.12 163.75L64.88 166.50L64.00 167.75L63.88 199.38L63.12 200.88L62.25 201.75L61.62 202.00L55.25 202.12L53.88 201.62L52.88 200.50L52.62 199.62L52.62 171.62L52.00 170.50L49.00 167.25L48.00 166.62L47.50 167.00L47.50 201.00L48.38 203.62L50.62 205.75L55.12 206.25L64.25 206.12L66.50 205.25L67.38 204.50L68.50 202.75L68.88 201.12L69.12 164.75ZM88.25 163.25L79.12 163.50L77.12 164.75L76.25 166.75L76.25 194.25L77.50 196.25L78.75 197.12L86.00 197.25L86.88 198.00L87.12 199.62L86.88 203.38L85.62 205.25L84.88 205.88L83.38 206.25L75.88 206.38L75.50 206.62L75.50 207.12L76.62 209.12L76.75 209.88L78.00 210.50L85.12 210.62L87.00 210.38L88.38 209.62L89.62 208.50L90.75 206.88L91.62 204.50L92.00 194.50L91.38 191.75L90.88 191.38L87.75 190.75L87.12 192.25L85.88 193.00L83.12 192.88L82.50 192.62L82.12 192.12L82.38 190.62L83.38 189.38L83.88 187.75L84.12 180.62L83.62 177.62L83.12 183.62L82.50 186.12L81.88 183.25L81.75 168.88L82.50 168.00L84.75 168.00L85.75 167.62L88.88 164.12L89.00 163.62ZM57.50 148.38L57.25 152.62L57.50 153.75L57.38 155.62L57.62 156.12L66.12 156.12L66.88 155.62L66.88 150.88L66.25 149.50L65.12 148.12L63.62 147.38L60.75 147.38L58.25 147.88ZM61.50 149.75L62.88 149.88L63.62 150.62L63.75 152.88L62.88 153.75L61.62 153.75L60.50 152.38L60.50 150.75ZM71.25 146.38L71.62 146.62L75.25 146.88L80.38 146.75L81.75 145.75L83.12 143.62L82.50 143.00L75.00 143.00L74.12 143.25L71.38 145.75ZM116.38 142.75L113.12 145.50L112.25 146.62L112.25 194.25L113.62 196.38L114.88 197.25L120.62 197.38L121.88 196.88L121.75 196.00L120.88 194.62L120.62 193.38L119.88 192.88L118.25 192.62L117.62 192.00L117.25 190.88L117.25 143.62L117.00 142.88ZM142.88 139.62L142.25 139.75L140.12 141.88L138.62 142.88L138.12 143.62L138.12 191.75L137.88 192.38L137.12 192.88L131.75 192.88L130.88 192.25L130.62 191.62L130.75 164.25L130.50 163.62L130.00 163.50L129.12 164.00L126.38 166.38L125.25 167.75L125.25 193.12L126.75 196.12L127.62 196.88L135.00 197.38L139.88 197.12L140.62 196.88L142.38 195.50L143.38 193.62L143.50 154.62L143.25 140.00ZM102.00 135.88L101.50 136.00L101.00 136.62L101.00 137.50L101.38 138.12L101.88 138.00L102.50 137.12L102.50 136.38ZM155.38 131.00L154.88 131.12L151.50 134.12L150.75 135.38L150.88 196.25L151.25 196.75L152.12 196.50L153.75 195.00L154.88 194.38L155.62 193.62L155.88 192.88L156.00 133.75L155.88 131.50ZM137.88 103.88L137.62 103.62L137.12 103.75L135.62 105.38L134.12 106.50L133.00 107.88L132.75 111.50L132.75 129.00L132.38 129.88L131.50 130.38L128.75 130.62L126.50 130.50L125.75 130.25L125.25 129.62L125.00 110.00L123.88 108.00L121.50 106.00L118.12 105.12L116.75 105.12L113.88 106.00L112.12 107.12L110.25 109.00L108.62 111.88L107.38 115.50L107.00 118.12L106.00 120.88L105.62 121.25L105.00 120.88L104.75 120.00L104.50 113.75L104.25 113.25L102.25 115.12L100.50 115.75L99.88 116.38L99.62 117.25L99.88 129.00L99.62 129.75L98.75 130.38L93.75 130.62L92.75 129.88L92.50 129.12L92.50 113.00L92.25 112.75L91.62 112.88L88.50 115.25L87.25 116.75L87.12 149.38L86.88 150.25L86.00 151.12L84.12 151.62L78.25 151.75L73.88 151.12L73.38 151.50L73.38 152.00L74.38 153.50L76.50 155.38L78.88 156.25L87.38 156.25L88.88 155.88L90.38 155.00L91.50 153.75L92.50 151.00L92.62 136.00L93.50 135.00L99.62 134.88L102.62 135.25L105.12 134.88L117.38 134.88L118.75 134.38L118.00 133.12L118.00 132.62L118.38 132.12L119.00 131.88L120.50 132.38L122.25 134.50L123.62 134.88L131.75 135.00L135.50 134.88L136.25 134.50L137.38 133.38L137.88 132.25ZM118.25 110.50L119.75 112.12L120.00 114.12L119.88 129.50L119.62 130.00L118.88 130.50L108.62 130.38L107.62 130.12L106.75 129.38L105.88 129.12L104.88 127.75L104.88 125.25L105.12 124.62L106.12 124.00L108.50 124.12L109.50 123.50L110.62 120.75L112.00 115.75L112.88 113.50L113.75 112.12L114.75 111.00L116.12 110.25L117.12 110.12ZM133.38 90.88L131.62 92.88L129.12 95.00L128.75 95.62L128.75 96.25L131.50 98.88L132.88 101.50L133.62 101.88L138.25 96.38L138.25 95.75L134.12 91.38ZM122.62 92.75L120.12 90.25L119.25 89.88L117.00 89.75L115.12 90.00L114.38 90.38L113.00 91.50L112.25 92.75L112.00 94.00L112.00 97.00L111.50 99.38L112.38 99.62L113.75 98.88L116.88 99.00L121.38 98.75L122.25 98.00L122.88 97.00L123.00 94.12ZM117.12 92.25L118.00 92.38L119.75 94.50L119.50 95.75L117.75 97.25L117.12 97.25L116.50 96.88L115.25 95.25L115.38 94.12ZM125.50 47.25L125.12 47.88L124.00 54.62L123.12 56.25L123.12 57.25L124.88 59.50L125.12 60.50L124.12 61.75L122.12 63.38L118.38 67.12L116.38 69.88L114.12 74.00L113.88 75.75L113.12 77.62L112.88 81.12L113.12 87.50L113.50 88.00L116.62 86.62L117.12 86.12L117.12 80.12L118.00 76.25L119.00 73.50L122.00 68.50L125.25 65.38L125.88 65.50L129.25 69.38L131.88 74.12L133.12 78.88L133.00 88.12L133.62 88.50L135.75 87.00L136.88 86.62L137.50 86.00L137.88 82.38L137.62 78.75L136.75 74.62L136.00 72.75L132.62 67.25L128.25 63.12L125.88 60.50L126.12 59.62L127.62 57.88L127.88 56.62L126.62 54.00L126.00 48.50Z"/><text x="107" y="240" text-anchor="middle" textLength="119" lengthAdjust="spacing" fill="currentColor" style="font-family:var(--f-latin);font-size:9.5px">BARON PALACE</text><path d="M50 251.5H93M121 251.5H164" stroke="currentColor" stroke-width="0.8" fill="none" opacity="0.85"/></svg>
+  </div>
+</section>
+
+<section class="sec" id="tour">
+  <div class="sec-head">
+    <span class="latin">The Cutaway</span>
+    <h2>جولة داخل القصر</h2>
+    <p>اضغط على أي دور في الرسم أو اختر من الأزرار. الرسم تخطيطي للتوضيح وليس بمقياس رسم.</p>
+  </div>
+  <div class="tour">
+    <div>
+      <div class="cut">
+        <svg viewBox="0 0 600 470" role="group" aria-label="مقطع تخطيطي للقصر: بدروم ودور أرضي ودور أول وسطح وبرج وحديقة">
+          <line class="ground-line" x1="0" y1="380" x2="600" y2="380"/>
+
+          <!-- basement -->
+          <g class="lvl" data-id="base" role="button" tabindex="0" aria-label="البدروم">
+            <rect class="shape" x="120" y="380" width="360" height="72"/>
+            <path class="deco" d="M150 452v-26M210 452v-26M390 452v-26M450 452v-26"/>
+            <text class="t" x="255" y="422">البدروم</text>
+          </g>
+
+          <!-- ground floor -->
+          <g class="lvl" data-id="ground" role="button" tabindex="0" aria-label="الدور الأرضي">
+            <rect class="shape" x="110" y="290" width="380" height="90"/>
+            <path class="deco" d="M140 380v-28a14 14 0 0 1 28 0v28M200 380v-28a14 14 0 0 1 28 0v28M376 380v-28a14 14 0 0 1 28 0v28M436 380v-28a14 14 0 0 1 28 0v28"/>
+            <text class="t" x="255" y="316">الدور الأرضي</text>
+          </g>
+
+          <!-- first floor -->
+          <g class="lvl" data-id="first" role="button" tabindex="0" aria-label="الدور الأول">
+            <rect class="shape" x="130" y="200" width="340" height="90"/>
+            <path class="deco" d="M158 266v-30a12 12 0 0 1 24 0v30M214 266v-30a12 12 0 0 1 24 0v30M362 266v-30a12 12 0 0 1 24 0v30M418 266v-30a12 12 0 0 1 24 0v30"/>
+            <path class="deco" d="M152 270h36M208 270h36M356 270h36M412 270h36"/>
+            <text class="t" x="270" y="222">الدور الأول</text>
+          </g>
+
+          <!-- roof terrace -->
+          <g class="lvl" data-id="roof" role="button" tabindex="0" aria-label="السطح">
+            <rect class="shape" x="130" y="174" width="196" height="26"/>
+            <path class="deco" d="M142 174v-10M162 174v-10M182 174v-10M202 174v-10M222 174v-10M242 174v-10M262 174v-10M282 174v-10M302 174v-10M138 164h176"/>
+            <text class="t small" x="228" y="192">السطح</text>
+          </g>
+
+          <!-- tower -->
+          <g class="lvl" data-id="tower" role="button" tabindex="0" aria-label="البرج">
+            <rect class="shape" x="334" y="124" width="134" height="76"/>
+            <rect class="shape" x="350" y="90" width="102" height="34"/>
+            <rect class="shape" x="366" y="62" width="70" height="28"/>
+            <rect class="shape" x="382" y="40" width="38" height="22"/>
+            <path class="deco" d="M401 40V14"/>
+            <circle class="deco fill" cx="401" cy="12" r="3.5"/>
+            <path class="deco" d="M362 200v-24a10 10 0 0 1 20 0v24M420 200v-24a10 10 0 0 1 20 0v24"/>
+            <text class="t" x="401" y="150">البرج</text>
+          </g>
+
+          <!-- stair + elevator -->
+          <g class="lvl plain" data-id="stair" role="button" tabindex="0" aria-label="السلم الحلزوني والمصعد">
+            <rect class="shape" x="292" y="200" width="30" height="252"/>
+            <path class="deco" d="M296 230l22-8M296 252l22-8M296 274l22-8M296 296l22-8M296 318l22-8M296 340l22-8M296 362l22-8M296 384l22-8M296 406l22-8M296 428l22-8" stroke-dasharray="2 3"/>
+          </g>
+
+          <!-- garden left -->
+          <g class="lvl plain" data-id="garden" role="button" tabindex="0" aria-label="الحديقة">
+            <rect class="shape" x="14" y="300" width="92" height="80"/>
+            <rect class="shape" x="494" y="300" width="92" height="80"/>
+            <path class="deco" d="M44 380v-6h28v6M52 374v-34M64 374v-34M58 340a9 9 0 1 1 0-18 9 9 0 0 1 0 18z"/>
+            <path class="deco" d="M528 380v-6h28v6M536 374v-34M548 374v-34M542 340a9 9 0 1 1 0-18 9 9 0 0 1 0 18z"/>
+            <text class="t small" x="60" y="400">الحديقة</text>
+            <text class="t small" x="540" y="400">الحديقة</text>
+          </g>
+        </svg>
+      </div>
+      <p class="cut-note">رسم توضيحي لتقسيم القصر كما تصفه وزارة السياحة والآثار: بدروم ودوران وسطح.</p>
+    </div>
+    <div>
+      <div class="chips" id="chips" role="group" aria-label="اختر مكانًا في القصر"></div>
+      <div class="panel" id="panel" aria-live="polite">
+        <h3 id="pTitle"></h3>
+        <p class="sub" id="pSub"></p>
+        <ul id="pList"></ul>
+      </div>
+    </div>
+  </div>
+  <div class="details">
+    <div>
+      <h3>الشمس من كل الجهات</h3>
+      <p>صُمم القصر بحيث تدخل الشمس إلى الغرف من جميع جوانبه.</p>
+    </div>
+    <div>
+      <h3>غرفة البارون</h3>
+      <p>تضم لوحة تصوّر مراحل صناعة النبيذ بالتفصيل.</p>
+    </div>
+    <div>
+      <h3>واجهات تحكي أساطير</h3>
+      <p>تغطي الواجهة الخارجية زخارف بارزة مستوحاة من أساطير هندوسية وبوذية.</p>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="story">
+  <div class="sec-head">
+    <span class="latin">Timeline</span>
+    <h2>رحلة القصر عبر الزمن</h2>
+    <p>اضغط على أي محطة لتفتح تفاصيلها.</p>
+  </div>
+  <ol class="tl" id="timeline"></ol>
+</section>
+
+<section class="sec" id="secrets">
+  <div class="sec-head">
+    <span class="latin">Architecture</span>
+    <h2>من أين جاء هذا الشكل؟</h2>
+    <p>قصر في الصحراء بشكل معبد. اضغط على كل كارت لتعرف مصدر الفكرة.</p>
+  </div>
+  <div class="cards" id="cards"></div>
+</section>
+
+<section class="sec" id="people">
+  <div class="sec-head">
+    <span class="latin">The People</span>
+    <h2>من صنع القصر؟</h2>
+    <p>أربعة أسماء ارتبطت ببناء القصر ومدينته.</p>
+  </div>
+  <div class="tabs" role="tablist" id="tabs" aria-label="الشخصيات"></div>
+  <div class="person" id="person" role="tabpanel" aria-live="polite">
+    <div>
+      <p class="role" id="perRole"></p>
+      <h3 id="perName"></h3>
+      <p class="yrs" id="perYrs"></p>
+    </div>
+    <ul id="perList"></ul>
+  </div>
+</section>
+
+<section class="sec" id="helio">
+  <div class="sec-head">
+    <span class="latin">Heliopolis</span>
+    <h2>مدينة الشمس حول القصر</h2>
+    <p>هليوبوليس اسم يوناني معناه مدينة الشمس، وهو ما نعرفه اليوم بمصر الجديدة. القصر جزء من مدينة بناها إمبان من الصفر.</p>
+  </div>
+  <div class="acc" id="acc"></div>
+</section>
+
+<section class="sec" id="play">
+  <div class="sec-head">
+    <span class="latin">Play</span>
+    <h2>العب واختبر معلوماتك</h2>
+    <p>ثلاث ألعاب، وكل المعلومات فيها من المصادر المذكورة في آخر الصفحة.</p>
+  </div>
+  <div class="tabs" role="tablist" id="gtabs" aria-label="الألعاب">
+    <button class="tab" role="tab" id="gt-mem" aria-selected="true" data-g="mem">لعبة الذاكرة</button>
+    <button class="tab" role="tab" id="gt-quiz" aria-selected="false" data-g="quiz">اختبار القصر</button>
+    <button class="tab" role="tab" id="gt-tf" aria-selected="false" data-g="tf">حقيقة ولا خرافة؟</button>
+  </div>
+
+  <div class="game" id="g-mem" role="tabpanel" aria-labelledby="gt-mem">
+    <div class="game-bar">
+      <span>اقلب كارتين لتجمع السؤال مع إجابته.</span>
+      <span>المحاولات: <b id="memMoves">0</b> · الأزواج: <b id="memPairs">0</b> من 6</span>
+    </div>
+    <div class="memgrid" id="memgrid"></div>
+    <div class="banner" id="memWin" hidden><p>أحسنت، جمعت الأزواج الستة في <b id="memFinal"></b> محاولة.</p></div>
+    <div class="nextrow"><button class="btn" id="memReset" type="button">ابدأ من جديد</button></div>
+  </div>
+
+  <div class="game" id="g-quiz" role="tabpanel" aria-labelledby="gt-quiz" hidden></div>
+
+  <div class="game" id="g-tf" role="tabpanel" aria-labelledby="gt-tf" hidden>
+    <ul class="tf" id="tfList"></ul>
+  </div>
+</section>
+
+<section class="sec" id="visit">
+  <div class="sec-head">
+    <span class="latin">Visit</span>
+    <h2>قبل ما تزور</h2>
+  </div>
+  <div class="visit">
+    <div>
+      <h3>المكان</h3>
+      <ul>
+        <li>حي مصر الجديدة بالقاهرة، على شارع العروبة (كان اسمه Avenue des Palais).</li>
+        <li>القصر محاط بحديقة كبيرة، وهو يختلف تمامًا عن المباني حوله.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>ماذا ستجد</h3>
+      <ul>
+        <li>معرض عن تاريخ مصر الجديدة بالصور والخرائط والوثائق والأفلام.</li>
+        <li>بانوراما من فوق السطح.</li>
+        <li>ترام قديم وسيارتان من الأربعينيات والخمسينيات في الحديقة.</li>
+        <li>كافتيريا ومطعم بطابع يناسب عمارة القصر.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="note">
+    <p>مواعيد الزيارة وأسعار التذاكر تتغير، والمصادر تذكر أرقامًا مختلفة. لذلك لم نكتبها هنا. راجع <a href="https://egymonuments.gov.eg/monuments/baron-empain-palace" target="_blank" rel="noopener">صفحة القصر الرسمية في وزارة السياحة والآثار</a> قبل الزيارة.</p>
+  </div>
+</section>
+
+<section class="sec" id="sources">
+  <div class="sec-head">
+    <span class="latin">Sources</span>
+    <h2>المصادر</h2>
+    <p>كل معلومة في الموقع مأخوذة من هذه المراجع. عندما تختلف المصادر في تفصيلة (مثل تكلفة الترميم) ذكرنا ذلك صراحة أو تجنبنا الرقم.</p>
+  </div>
+  <ul class="src">
+    <li><a href="https://egymonuments.gov.eg/monuments/baron-empain-palace" target="_blank" rel="noopener">وزارة السياحة والآثار: قصر البارون إمبان</a><small>egymonuments.gov.eg</small></li>
+    <li><a href="https://en.wikipedia.org/wiki/%C3%89douard_Empain" target="_blank" rel="noopener">Édouard Empain</a><small>Wikipedia</small></li>
+    <li><a href="https://scroll.in/magazine/1015265/when-a-belgian-baron-built-a-hindu-palace-near-cairo" target="_blank" rel="noopener">When a Belgian baron built a Hindu palace near Cairo</a><small>Scroll.in</small></li>
+    <li><a href="https://iwh.icesco.org/palace-of-baron-empain/" target="_blank" rel="noopener">Palace of Baron Empain</a><small>ICESCO</small></li>
+    <li><a href="https://acquiaprod.middleeasteye.net/node/178771" target="_blank" rel="noopener">Myths and legends laid to rest as historic Egypt palace finally opens</a><small>Middle East Eye</small></li>
+    <li><a href="https://english.ahram.org.eg/News/373255.aspx" target="_blank" rel="noopener">Egypt reopens long-dormant Baron Empain Palace</a><small>Ahram Online</small></li>
+    <li><a href="https://www.egyptindependent.com/?p=2617655" target="_blank" rel="noopener">Baron Empain Palace starts receiving visitors after restoration</a><small>Egypt Independent</small></li>
+    <li><a href="https://www.egyptindependent.com/?p=2596959" target="_blank" rel="noopener">Supreme Council of Antiquities announces ticket prices for Baron Palace</a><small>Egypt Independent</small></li>
+    <li><a href="https://arabnews.com/node/1699116" target="_blank" rel="noopener">Cairo's Baron Empain Palace receives visitors after restoration</a><small>Arab News</small></li>
+    <li><a href="https://egyptianstreets.com/2020/02/09/renovation-end-in-sight-baron-empain-palace-ticket-prices-announced/" target="_blank" rel="noopener">Renovation end in sight: Baron Palace ticket prices announced</a><small>Egyptian Streets</small></li>
+    <li><a href="https://photorientalist.org/?p=4256" target="_blank" rel="noopener">Baron Empain Palace: Remembering Heliopolis' Glorious Past</a><small>Photorientalist</small></li>
+    <li><a href="https://www.elwatannews.com/news/details/8080706" target="_blank" rel="noopener">قصر البارون إمبان.. تحفة معمارية وبداية حلم تدشين هليوبوليس</a><small>الوطن</small></li>
+    <li><a href="https://www.noonpost.com/22048/" target="_blank" rel="noopener">قصر البارون في القاهرة.. ما حكايته الغامضة؟</a><small>نون بوست</small></li>
+  </ul>
+</section>
+
+</main>
+
+<footer>
+  <span class="latin">Baron Palace</span>
+  موقع تعريفي عن قصر البارون إمبان · مشروع تخرج
+</footer>
+
+</div>
+
+<script>
+(function () {
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+  function shuffle(a) { a = a.slice(); for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+
+  /* ---------- explorer counter ---------- */
+  var ALL = {}, seen = {}, total = 0, count = 0;
+  function reg(id) { if (!ALL[id]) { ALL[id] = 1; total++; } return id; }
+  function mark(id) { if (!seen[id]) { seen[id] = 1; count++; paint(); } }
+  function paint() {
+    $('#chipText').textContent = (count >= total && total) ? 'أكملت الجولة كاملة' : 'اكتشفت ' + count + ' من ' + total;
+    $('#chipBar').style.width = (total ? count / total * 100 : 0) + '%';
+    $('#explorer').classList.toggle('done', count >= total && total > 0);
+  }
+
+  /* ---------- cutaway ---------- */
+  var LEVELS = [
+    { id: 'roof', chip: 'السطح', t: 'السطح', s: 'مساحة مفتوحة بجوار البرج', l: [
+      'سطح القصر مساحة مفتوحة على أحد جانبي البرج المميز.',
+      'بعد الترميم صار منطقة بانوراما تطل على أجزاء من مصر الجديدة، منها شارع العروبة وقصر السلطانة.' ] },
+    { id: 'tower', chip: 'البرج', t: 'البرج', s: 'العلامة الأشهر للقصر', l: [
+      'برج مستوحى من أبراج المعابد الهندوسية، وهو ما يميز القصر عن بقية مباني الحي.',
+      'تغطي الواجهات زخارف بارزة مستوحاة من أساطير هندوسية وبوذية.' ] },
+    { id: 'first', chip: 'الدور الأول', t: 'الدور الأول', s: 'أربع غرف', l: [
+      'أربع غرف، لكل غرفة شرفتها وحمامها الخاص.',
+      'يصل إليها السلم الحلزوني والمصعد.' ] },
+    { id: 'ground', chip: 'الدور الأرضي', t: 'الدور الأرضي', s: 'غرف الاستقبال', l: [
+      'غرفة استقبال.',
+      'غرفة طعام.',
+      'غرفة بلياردو.' ] },
+    { id: 'base', chip: 'البدروم', t: 'البدروم', s: 'مكان إقامة الخدم', l: [
+      'خُصص البدروم لإقامة خدم القصر.',
+      'يتكون من مجموعة غرف تربط بينها ممرات وأبواب.' ] },
+    { id: 'stair', chip: 'السلم والمصعد', t: 'السلم الحلزوني والمصعد', s: 'يربطان القصر من أسفل لأعلى', l: [
+      'سلم حلزوني ومصعد يربطان أدوار القصر بالبدروم.' ] },
+    { id: 'garden', chip: 'الحديقة', t: 'الحديقة', s: 'تحيط بالقصر من كل جانب', l: [
+      'حديقة كبيرة تحيط بالقصر من كل الجهات.',
+      'فيها تماثيل رخامية على الطراز الأوروبي من الميثولوجيا اليونانية والرومانية، منها تمثال نرجس.',
+      'بعد الترميم عُرض في الحديقة ترام قديم وسيارتان من الأربعينيات والخمسينيات.' ] }
+  ];
+  var chipsBox = $('#chips'), cur = null;
+  LEVELS.forEach(function (lv) {
+    reg('lvl-' + lv.id);
+    var b = el('button', 'chip', lv.chip); b.type = 'button'; b.setAttribute('aria-pressed', 'false'); b.dataset.id = lv.id;
+    b.addEventListener('click', function () { selectLevel(lv.id); });
+    chipsBox.appendChild(b);
+  });
+  $$('.lvl').forEach(function (g) {
+    g.addEventListener('click', function () { selectLevel(g.dataset.id); });
+    g.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectLevel(g.dataset.id); } });
+  });
+  function selectLevel(id, silent) {
+    var lv = LEVELS.filter(function (x) { return x.id === id; })[0]; if (!lv) return;
+    cur = id;
+    $$('.lvl').forEach(function (g) { g.classList.toggle('on', g.dataset.id === id); });
+    $$('.chip', chipsBox).forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.id === id ? 'true' : 'false'); });
+    $('#pTitle').textContent = lv.t; $('#pSub').textContent = lv.s;
+    var ul = $('#pList'); ul.textContent = '';
+    lv.l.forEach(function (t) { ul.appendChild(el('li', null, t)); });
+    if (!silent) mark('lvl-' + id);
+  }
+  selectLevel('ground', true);
+
+  /* ---------- timeline ---------- */
+  var TL = [
+    ['1852', 'ولادة إدوارد إمبان في بلجيكا', 'وُلد إدوارد لويس جوزيف إمبان في مدينة بيلوي البلجيكية، وصار لاحقًا مهندسًا ورجل أعمال في مجال السكك الحديدية.'],
+    ['1900', 'معرض باريس يلفت نظره إلى الشرق', 'انجذب إمبان إلى الأجنحة الشرقية في معرض باريس عام 1900، ومنها الجناح الكمبودي وبانوراما «Tour du Monde» التي صممها المعماري ألكسندر مارسيل.'],
+    ['1904', 'يصل إلى مصر', 'جاء إمبان إلى مصر عام 1904 وأسس شركة لإنشاء خط سكة حديد يربط المنصورة بالمطرية. بعد أن خسر عقد الخط بقي في القاهرة وبدأ مشروع مدينة مصر الجديدة.'],
+    ['1907', 'لقب بارون وبداية البناء', 'حصل إمبان على لقب بارون من ملك بلجيكا ليوبولد الثاني، وكلّف مارسيل بتصميم قصر على هيئة معبد هندوسي. تتفق أغلب المصادر على أن البناء بدأ في هذا العام.'],
+    ['1911', 'اكتمال القصر', 'انتهى البناء بعد نحو أربع سنوات، وانتقل البارون للإقامة في القصر.'],
+    ['1929', 'وفاة البارون', 'توفي إمبان عام 1929 ودُفن في بازيليكا مصر الجديدة التي بناها قرب قصره، فكان مثواه الأخير في المدينة التي أسسها.'],
+    ['2017', 'بداية الترميم', 'بعد سنوات طويلة من الإغلاق بدأت أول أعمال ترميم للقصر، بالتعاون مع الهيئة الهندسية للقوات المسلحة وشركة المقاولون العرب. تتراوح تقديرات التكلفة بحسب المصدر بين أكثر من 100 مليون و175 مليون جنيه. وأعاد الترميم للقصر لونه الأصلي النحاسي بعد عقود من اللون البيج.'],
+    ['2019', 'تمويل بلجيكي إضافي', 'وقّعت مصر وبلجيكا مذكرة تفاهم لتمويل إضافي بقيمة 16 مليون جنيه لأعمال الترميم، وتحويل القصر إلى معرض عن تاريخ مصر الجديدة.'],
+    ['2020', 'الافتتاح للجمهور', 'افتتح الرئيس عبد الفتاح السيسي القصر رسميًا يوم 29 يونيو 2020، واستقبل الزوار في اليوم التالي. صار القصر متحفًا يحكي تاريخ مصر الجديدة.']
+  ];
+  var tlBox = $('#timeline');
+  TL.forEach(function (it, i) {
+    var id = reg('tl-' + i), li = el('li'), b = el('button', 'tl-btn'); b.type = 'button'; b.setAttribute('aria-expanded', 'false');
+    b.appendChild(el('span', 'yr', it[0])); b.appendChild(el('span', 'tt', it[1]));
+    var more = el('div', 'tl-more'); more.hidden = true; more.id = 'tlm-' + i; more.appendChild(el('p', null, it[2]));
+    b.setAttribute('aria-controls', more.id);
+    b.addEventListener('click', function () {
+      var open = b.getAttribute('aria-expanded') === 'true';
+      b.setAttribute('aria-expanded', open ? 'false' : 'true'); more.hidden = open; if (!open) mark(id);
+    });
+    li.appendChild(b); li.appendChild(more); tlBox.appendChild(li);
+  });
+  (function () { var b = $('.tl-btn', tlBox.children[3]); b.click(); seen = {}; count = 0; paint(); })();
+
+  /* ---------- flip cards ---------- */
+  var CARDS = [
+    ['أنكور وات', 'معبد في كمبوديا، فما علاقته بالقصر؟', 'يذكر كثير من المراجع أن القصر استوحى جزءًا من تصميمه من معبد أنكور وات الكمبودي، وهو من أشهر معابد العالم.'],
+    ['معابد أوريسا', 'معابد الهند، وماذا أخذ القصر منها؟', 'معابد هندوسية في شرق الهند تُذكر مع أنكور وات كمصدر إلهام لتصميم القصر وأبراجه.'],
+    ['نحت أوروبي', 'هل القصر هندي بالكامل؟', 'لا. التماثيل الخارجية والزخارف الداخلية على الطراز الأوروبي المتأثر بعصر النهضة، فجمع القصر بين الشرق والغرب.'],
+    ['الخرسانة المسلحة', 'ما سر البناء؟', 'القصر من أوائل المباني في مصر المبنية بالخرسانة المسلحة بنظام هينيبيك، وهو نظام فرنسي يضع حديد التسليح داخل الخرسانة لتقويتها.'],
+    ['معرض باريس 1900', 'أين لفت الشرق نظر إمبان؟', 'هناك رأى إمبان الأجنحة الشرقية ومنها الجناح الكمبودي، وبانوراما «Tour du Monde» التي صممها ألكسندر مارسيل نفسه.'],
+    ['اللون النحاسي', 'ما اللون الحقيقي للقصر؟', 'ظل القصر بلون بيج لعقود، ثم أعاد الترميم إليه لونه الأصلي النحاسي المائل للأحمر.']
+  ];
+  var cardsBox = $('#cards');
+  CARDS.forEach(function (c, i) {
+    var id = reg('card-' + i), b = el('button', 'flip'); b.type = 'button'; b.setAttribute('aria-pressed', 'false');
+    var f = el('span', 'face front'), k = el('span', 'face back');
+    var ic = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); ic.setAttribute('class', 'mini'); ic.setAttribute('aria-hidden', 'true');
+    var u = document.createElementNS('http://www.w3.org/2000/svg', 'use'); u.setAttribute('href', '#dome'); ic.appendChild(u);
+    f.appendChild(ic); f.appendChild(el('h3', null, c[0])); f.appendChild(el('span', 'q', c[1])); f.appendChild(el('span', 'hint', 'اضغط لتعرف'));
+    k.appendChild(el('h3', null, c[0])); k.appendChild(el('p', null, c[2]));
+    b.appendChild(f); b.appendChild(k);
+    b.addEventListener('click', function () { var on = b.getAttribute('aria-pressed') === 'true'; b.setAttribute('aria-pressed', on ? 'false' : 'true'); if (!on) mark(id); });
+    cardsBox.appendChild(b);
+  });
+
+  /* ---------- people ---------- */
+  var PEOPLE = [
+    { tab: 'إدوارد إمبان', role: 'صاحب القصر ومؤسس مصر الجديدة', name: 'إدوارد إمبان', yrs: '1852 – 1929', l: [
+      'مهندس ورجل أعمال بلجيكي، اشتهر ببناء السكك الحديدية، ومن مشاريعه مترو باريس.',
+      'حصل على لقب بارون عام 1907 من ملك بلجيكا ليوبولد الثاني.',
+      'أنشأ في مصر خط سكة حديد كهربائيًا يربط القاهرة بمصر الجديدة.',
+      'كان مولعًا بالآثار المصرية، واقترح على عالم المصريات البلجيكي جان كابار الحفر في هليوبوليس.' ] },
+    { tab: 'ألكسندر مارسيل', role: 'مصمم القصر', name: 'ألكسندر مارسيل', yrs: '1860 – 1928', l: [
+      'مهندس معماري فرنسي اشتهر بأعماله في معرض باريس 1900، ومعروف بالمزج بين العمارة الهندية والآسيوية.',
+      'صمم أيضًا السفارة الفرنسية في طوكيو وقصر مهراجا كابورثالا في الهند.',
+      'في مصر الجديدة صمم كذلك القبة الكبرى لفندق هليوبوليس بالاس وبازيليكا مصر الجديدة.' ] },
+    { tab: 'جورج لويس كلود', role: 'مصمم الزخارف', name: 'جورج لويس كلود', yrs: '1879 – 1963', l: [
+      'تولى تزيين القصر وزخرفته، بينما صمم مارسيل المبنى نفسه.',
+      'تذكر المراجع أن أعمال القصر انتهت عام 1911.' ] },
+    { tab: 'إرنست جاسبار', role: 'مخطط مصر الجديدة', name: 'إرنست جاسبار', yrs: '1876 – 1940', l: [
+      'معماري بلجيكي ورفيق إمبان، ساعده في تحويل حلم المدينة إلى واقع.',
+      'صمم مصر الجديدة بمزيج من العمارة الإسلامية والأوروبية والفارسية والمغربية.' ] }
+  ];
+  var tabsBox = $('#tabs');
+  PEOPLE.forEach(function (p, i) {
+    reg('per-' + i);
+    var b = el('button', 'tab', p.tab); b.type = 'button'; b.setAttribute('role', 'tab'); b.setAttribute('aria-selected', 'false');
+    b.addEventListener('click', function () { showPerson(i); });
+    tabsBox.appendChild(b);
+  });
+  function showPerson(i, silent) {
+    var p = PEOPLE[i];
+    $$('.tab', tabsBox).forEach(function (b, k) { b.setAttribute('aria-selected', k === i ? 'true' : 'false'); });
+    $('#perRole').textContent = p.role; $('#perName').textContent = p.name; $('#perYrs').textContent = p.yrs;
+    var ul = $('#perList'); ul.textContent = ''; p.l.forEach(function (t) { ul.appendChild(el('li', null, t)); });
+    if (!silent) mark('per-' + i);
+  }
+  showPerson(0, true);
+
+  /* ---------- heliopolis ---------- */
+  var HELIO = [
+    ['فندق هليوبوليس بالاس', 'فندق فاخر بُني ضمن المدينة الجديدة، وصمم مارسيل قبته الكبرى. صار لاحقًا مقرًا رئاسيًا هو قصر الاتحادية.'],
+    ['بازيليكا مصر الجديدة', 'كنيسة بناها إمبان قرب قصره وصممها مارسيل. دُفن فيها عام 1929.'],
+    ['القطار والترام', 'أسس إمبان خط سكة حديد كهربائيًا يربط القاهرة بمصر الجديدة. وفي حديقة القصر اليوم ترام قديم معروض للزوار.']
+  ];
+  var accBox = $('#acc');
+  HELIO.forEach(function (h, i) {
+    var id = reg('hel-' + i), d = el('details'), s = el('summary', null, h[0]), b = el('div', 'body'); b.appendChild(el('p', null, h[1]));
+    d.appendChild(s); d.appendChild(b);
+    d.addEventListener('toggle', function () { if (d.open) mark(id); });
+    accBox.appendChild(d);
+  });
+
+  /* ---------- game tabs ---------- */
+  var gtabs = $$('#gtabs .tab');
+  gtabs.forEach(function (t) {
+    t.addEventListener('click', function () {
+      gtabs.forEach(function (x) { x.setAttribute('aria-selected', x === t ? 'true' : 'false'); $('#g-' + x.dataset.g).hidden = x !== t; });
+    });
+  });
+
+  /* ---------- memory ---------- */
+  reg('g-memory'); reg('g-quiz'); reg('g-tf');
+  var PAIRS = [['مصمم القصر', 'ألكسندر مارسيل'], ['اكتمال البناء', '1911'], ['جنسية البارون', 'بلجيكي'], ['المعبد الملهم', 'أنكور وات'], ['معنى هليوبوليس', 'مدينة الشمس'], ['نظام الخرسانة', 'هينيبيك']];
+  var mGrid = $('#memgrid'), first = null, lock = false, moves = 0, pairs = 0;
+  function buildMemory() {
+    mGrid.textContent = ''; first = null; lock = false; moves = 0; pairs = 0;
+    $('#memMoves').textContent = '0'; $('#memPairs').textContent = '0'; $('#memWin').hidden = true;
+    var cards = [];
+    PAIRS.forEach(function (p, i) { cards.push({ p: i, k: 0, t: p[0] }); cards.push({ p: i, k: 1, t: p[1] }); });
+    shuffle(cards).forEach(function (c) {
+      var b = el('button', 'mem'); b.type = 'button'; b.setAttribute('aria-label', 'كارت مقلوب');
+      var down = el('span', 'f down'), up = el('span', 'f up', c.t);
+      var ic = document.createElementNS('http://www.w3.org/2000/svg', 'svg'); ic.setAttribute('aria-hidden', 'true');
+      var u = document.createElementNS('http://www.w3.org/2000/svg', 'use'); u.setAttribute('href', '#dome'); ic.appendChild(u); down.appendChild(ic);
+      b.appendChild(down); b.appendChild(up);
+      b.addEventListener('click', function () {
+        if (lock || b.classList.contains('open') || b.classList.contains('ok')) return;
+        b.classList.add('open'); b.setAttribute('aria-label', c.t);
+        if (!first) { first = { b: b, c: c }; return; }
+        moves++; $('#memMoves').textContent = moves;
+        var a = first; first = null;
+        if (a.c.p === c.p && a.c.k !== c.k) {
+          a.b.classList.add('ok'); b.classList.add('ok'); pairs++; $('#memPairs').textContent = pairs;
+          if (pairs === PAIRS.length) { $('#memFinal').textContent = moves; $('#memWin').hidden = false; mark('g-memory'); }
+        } else {
+          lock = true;
+          setTimeout(function () { a.b.classList.remove('open'); b.classList.remove('open'); a.b.setAttribute('aria-label', 'كارت مقلوب'); b.setAttribute('aria-label', 'كارت مقلوب'); lock = false; }, 950);
+        }
+      });
+      mGrid.appendChild(b);
+    });
+  }
+  $('#memReset').addEventListener('click', buildMemory);
+  buildMemory();
+
+  /* ---------- quiz ---------- */
+  var QUIZ = [
+    ['من صمم قصر البارون؟', 'ألكسندر مارسيل', ['إرنست جاسبار', 'جورج لويس كلود', 'إدوارد إمبان'], 'ألكسندر مارسيل مهندس معماري فرنسي، وتولى جورج لويس كلود الزخارف.'],
+    ['في أي عام اكتمل بناء القصر؟', '1911', ['1895', '1929', '1952'], 'بدأ البناء عام 1907 في أغلب المصادر، واكتمل عام 1911.'],
+    ['ما جنسية البارون إمبان؟', 'بلجيكي', ['فرنسي', 'هندي', 'إنجليزي'], 'وُلد إمبان في بلجيكا عام 1852.'],
+    ['أي معبد ألهم تصميم القصر؟', 'أنكور وات في كمبوديا', ['معبد الكرنك', 'معبد أبو سمبل', 'تاج محل'], 'تذكر المصادر أيضًا معابد أوريسا الهندوسية في الهند.'],
+    ['ماذا يعني اسم هليوبوليس؟', 'مدينة الشمس', ['مدينة النور', 'المدينة الجديدة', 'مدينة القصور'], 'هليوبوليس اسم يوناني معناه مدينة الشمس، وتُعرف اليوم بمصر الجديدة.'],
+    ['بأي نظام بُني القصر؟', 'الخرسانة المسلحة بنظام هينيبيك', ['الحجر الجيري فقط', 'الطوب اللبن', 'الهياكل الخشبية'], 'اخترع المهندس الفرنسي فرانسوا هينيبيك هذا النظام الذي يضع حديد التسليح داخل الخرسانة.'],
+    ['متى افتُتح القصر للزيارة بعد الترميم؟', '2020', ['2005', '2011', '2017'], 'افتُتح رسميًا يوم 29 يونيو 2020 واستقبل الزوار في اليوم التالي. أما عام 2017 فبدأت فيه أعمال الترميم.'],
+    ['كم عدد الغرف في الدور الأول؟', 'أربع غرف', ['غرفتان', 'ست غرف', 'ثماني غرف'], 'أربع غرف، لكل منها شرفة وحمام.']
+  ];
+  var qBox = $('#g-quiz'), qi = 0, qs = 0;
+  function renderQuiz() {
+    qBox.textContent = '';
+    if (qi >= QUIZ.length) {
+      var title = qs >= 7 ? 'دليل القصر' : qs >= 5 ? 'مستكشف مصر الجديدة' : 'زائر جديد';
+      qBox.appendChild(el('p', 'q-count', 'نتيجتك'));
+      qBox.appendChild(el('p', 'score', qs + ' من ' + QUIZ.length));
+      qBox.appendChild(el('p', null, 'لقبك: ' + title));
+      var again = el('button', 'btn solid', 'العب مرة أخرى'); again.type = 'button';
+      again.addEventListener('click', function () { qi = 0; qs = 0; renderQuiz(); });
+      var w = el('div', 'nextrow'); w.appendChild(again); qBox.appendChild(w);
+      mark('g-quiz'); return;
+    }
+    var q = QUIZ[qi];
+    qBox.appendChild(el('p', 'q-count', 'سؤال ' + (qi + 1) + ' من ' + QUIZ.length));
+    qBox.appendChild(el('p', 'q-text', q[0]));
+    var box = el('div', 'opts'), why = el('p', 'why'); why.hidden = true;
+    var nextRow = el('div', 'nextrow'); nextRow.hidden = true;
+    var nb = el('button', 'btn', qi === QUIZ.length - 1 ? 'شاهد النتيجة' : 'السؤال التالي'); nb.type = 'button';
+    nb.addEventListener('click', function () { qi++; renderQuiz(); });
+    nextRow.appendChild(nb);
+    shuffle([q[1]].concat(q[2])).forEach(function (o) {
+      var b = el('button', 'opt', o); b.type = 'button';
+      b.addEventListener('click', function () {
+        var ok = o === q[1]; if (ok) qs++;
+        $$('.opt', box).forEach(function (x) { x.disabled = true; if (x.textContent === q[1]) x.classList.add('right'); });
+        if (!ok) b.classList.add('wrong');
+        why.textContent = (ok ? 'إجابة صحيحة. ' : 'الإجابة الصحيحة: ' + q[1] + '. ') + q[3]; why.hidden = false; nextRow.hidden = false;
+      });
+      box.appendChild(b);
+    });
+    qBox.appendChild(box); qBox.appendChild(why); qBox.appendChild(nextRow);
+  }
+  renderQuiz();
+
+  /* ---------- true / false ---------- */
+  var TF = [
+    ['القصر مبني بالخرسانة المسلحة بنظام هينيبيك.', true, 'القصر من أوائل المباني في مصر المبنية بهذا النظام الفرنسي.'],
+    ['مهندس القصر بلجيكي مثل البارون.', false, 'المصمم هو الفرنسي ألكسندر مارسيل، أما البارون فبلجيكي.'],
+    ['البارون قتل المهندس الذي بنى القصر حتى لا يكرره.', false, 'هذه من الحكايات المتداولة عن القصر، ولم نجد لها تأكيدًا في المصادر التاريخية. وتذكر المراجع أن مارسيل عاش من 1860 إلى 1928، أي بعد اكتمال القصر بسنوات طويلة.'],
+    ['فتح القصر أبوابه للجمهور منذ عام 1911.', false, 'ظل القصر مغلقًا سنوات طويلة، وافتُتح للزوار يوم 30 يونيو 2020 بعد أول ترميم له.'],
+    ['تماثيل حديقة القصر مستوحاة من الأساطير اليونانية والرومانية.', true, 'في الحديقة تماثيل رخامية أوروبية الطراز منها تمثال نرجس.'],
+    ['القصر مبني بالكامل على الطراز الإسلامي.', false, 'مزج القصر بين تأثيرات هندية وكمبودية وأوروبية.'],
+    ['لون القصر الأصلي نحاسي مائل للأحمر.', true, 'ظل بلون بيج عقودًا، ثم أعاد الترميم لونه الأصلي.']
+  ];
+  var tfBox = $('#tfList'), tfDone = 0;
+  TF.forEach(function (t) {
+    var li = el('li'), st = el('p', 'st', t[0]), row = el('div', 'row'), res = el('p', 'res'); res.hidden = true;
+    var done = false;
+    [['حقيقة', true], ['خرافة', false]].forEach(function (a) {
+      var b = el('button', 'btn', a[0]); b.type = 'button';
+      b.addEventListener('click', function () {
+        if (done) return; done = true; tfDone++;
+        var ok = a[1] === t[1];
+        res.textContent = ''; var s = el('strong', null, ok ? 'صح. ' : 'ليس تمامًا. الإجابة: ' + (t[1] ? 'حقيقة' : 'خرافة') + '. ');
+        res.appendChild(s); res.appendChild(document.createTextNode(t[2])); res.className = 'res' + (ok ? '' : ' bad'); res.hidden = false;
+        $$('.btn', row).forEach(function (x) { x.disabled = true; });
+        if (tfDone === TF.length) mark('g-tf');
+      });
+      row.appendChild(b);
+    });
+    li.appendChild(st); li.appendChild(row); li.appendChild(res); tfBox.appendChild(li);
+  });
+
+  paint();
+})();
+</script>
